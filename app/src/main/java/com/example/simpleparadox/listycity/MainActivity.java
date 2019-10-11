@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final String deleteCityName = deleteCityEditText.getText().toString();
 
+                if(deleteCityName.length()>0){
 
                     collectionReference
                             .document(deleteCityName)
