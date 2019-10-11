@@ -46,11 +46,16 @@ public class MainActivity extends AppCompatActivity {
         final Button addCityButton;
         final EditText addCityEditText;
         final EditText addProvinceEditText;
+        final EditText deleteCityEditText;
+        final Button deleteCityButton;
 
         FirebaseFirestore db;
         addCityButton = findViewById(R.id.add_city_button);
         addCityEditText = findViewById(R.id.add_city_field);
         addProvinceEditText = findViewById(R.id.add_province_edit_text);
+        deleteCityEditText = findViewById(R.id.delete_city_field);
+        deleteCityButton = findViewById(R.id.delete_city_button);
+
 
         cityList = findViewById(R.id.city_list);
 
@@ -117,6 +122,78 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
+            }
+        });
+
+
+        deleteCityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String deleteCityName = deleteCityEditText.getText().toString();
+
+
+                    collectionReference
+                            .document(deleteCityName)
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG,"Data delete successful");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG,"Data delete failed" + e.toString());
+                                }
+                            });
+
+                    deleteCityEditText.setText("");
+
+                    collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                            cityDataList.clear();
+                            for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                                Log.d(TAG,String.valueOf(doc.getData().get("province_name")));
+                                String city = doc.getId();
+                                String province = (String) doc.getData().get("province_name");
+
+                                cityDataList.add(new City(city,province));
+
+                            }
+                            cityAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+
+                }else{
+                    Log.d(TAG,"no such city");
+
+                }
+
+
+
+
+
+            }
+
+
+        });
+
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                cityDataList.clear();
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                    Log.d(TAG,String.valueOf(doc.getData().get("province_name")));
+                    String city = doc.getId();
+                    String province = (String) doc.getData().get("province_name");
+
+                    cityDataList.add(new City(city,province));
+
+                }
+                cityAdapter.notifyDataSetChanged();
             }
         });
 

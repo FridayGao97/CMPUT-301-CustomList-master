@@ -14,17 +14,38 @@
             android:id="@+id/add_city_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:hint="Enter The City Name"
             android:ems="8"/>
         <EditText
             android:id="@+id/add_province_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:hint="Enter Its Province Name"
             android:ems="7"/>
+
         <Button
             android:id="@+id/add_city_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="6"/>
+            android:ems="6"
+            android:text="ADD" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/delete_city_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter the City Name to Delete"
+            android:ems="8"/>
+        <Button
+            android:id="@+id/delete_city_button"
+            android:text="DELETE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="7"/>
     </LinearLayout>
     <ListView
         android:id="@+id/city_list"
